@@ -131,11 +131,19 @@ class DataPoint:
     #       the data points.
 
     sum = 0
-    
-    for key in self.counts:
-      if key in other_point.counts:
+
+    # do the distance from the shorter of the two
+    if len(self.counts) < len(other_point.counts):
+      short = self.counts
+      long = other_point.counts
+    else:
+      short = other_point.counts
+      long = self.counts
+
+    for key in short:
+      if key in long:
         # intersection
-        sum += ((self.counts[key] - other_point.counts[key]) ** 2)
+        sum += ((short[key] - long[key]) ** 2)
 
     # return 1 - the cosine similarity to get a distance metric
     return math.sqrt(sum)
