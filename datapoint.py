@@ -11,6 +11,7 @@ import math
 import re
 import random
 
+
 class DataPoint:
   """
   Sparse representation of a data point.
@@ -129,6 +130,15 @@ class DataPoint:
     #       Make sure you understand this distinction and how we are representing
     #       the data points.
 
+    sum = 0
+    
+    for key in self.counts:
+      if key in other_point.counts:
+        # intersection
+        sum += ((self.counts[key] - other_point.counts[key]) ** 2)
+
+    # return 1 - the cosine similarity to get a distance metric
+    return math.sqrt(sum)
 
 class WordDataPoint(DataPoint):
   """
