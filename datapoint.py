@@ -150,10 +150,18 @@ class DataPoint:
       short = other_point.counts
       long = self.counts
 
-    for key in short:
-      if key in long:
+    for key in long:
+      if key in short:
         # intersection
         sum += ((short[key] - long[key]) ** 2)
+      else:
+        sum += (long[key] ** 2)
+    for key in short:
+      if key in long:
+        sum += 0
+      else:
+        sum += (short[key] ** 2)
+
 
     # return 1 - the cosine similarity to get a distance metric
     return math.sqrt(sum)
