@@ -87,7 +87,7 @@ class KMeans:
       for i, prev_center in enumerate(self.prev_centers):
         center_delta += prev_center.distance(self.centers[i], self.distance)
       print "CENTROID TOTAL CHANGE", center_delta
-      return center_delta < self.EPSILON:
+      return center_delta < self.EPSILON
 
     def iterate():
       self.assign_to_centers()
