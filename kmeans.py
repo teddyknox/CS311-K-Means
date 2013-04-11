@@ -5,7 +5,7 @@ author: David Kauchak
 date: April, 2013
 """
 
-from random import randint
+from random import randint, uniform
 from datapoint import DataPoint
 from copy import deepcopy
 
@@ -33,17 +33,44 @@ class KMeans:
     self.centers = []
     self.prev_centers = []
 
-    cluster_indexes = []
-    num_points = len(data)
-    possible_indexes = range(num_points)
+    def init_existing_points(k):
+      cluster_indexes = []
+      num_points = len(data)
+      possible_indexes = range(num_points)
+      for i in range(1, k+1):
+        self.clusters.append([])
+        which_index = randint(0, num_points-i)
+        self.centers.append(data[possible_indexes[which_index]])
+        possible_indexes.pop(which_index)
+      self.clusters[0] = data
 
-    for i in range(1, k+1):
-      self.clusters.append([])
-      which_index = randint(0, num_points-i)
-      self.centers.append(data[possible_indexes[which_index]])
-      possible_indexes.pop(which_index)
+    def init_generate_points(k):
+      cluster_indexes = []
 
-    self.clusters[0] = data
+      dim_ranges = {}
+      for point in data:
+        for dim, val in point.counts.items():
+          dim_ranges[dim] = [self.INFINITY, -self.INFINITY]
+
+      for point in data:
+        for dim, vals in dim_ranges.items():
+          if dim in point.counts:
+            # checking against min, max
+            dim_ranges[dim][0] = min(vals[0], point.counts[dim])
+            dim_ranges[dim][1] = max(vals[1], point.counts[dim])
+          else:
+            dim_ranges[dim][0] = min(vals[0], 0)
+            dim_ranges[dim][1] = max(vals[1], 0)
+
+      for i in range(k):
+        self.clusters.append([])
+        vector = {}
+        for dim, val in dim_ranges.items():
+          vector[dim] = uniform(*val)
+        self.centers.append(DataPoint(vector))
+      self.clusters[0] = data
+
+    init_generate_points(k)
 
   def cluster(self, iterations=INFINITY):
     """
@@ -68,6 +95,7 @@ class KMeans:
 
     if iterations == self.INFINITY: # infinite iterations
       while not isDone():
+        print "Next Iteration" 
         self.print_cluster_lens()
         iterate()
     else:
@@ -80,6 +108,9 @@ class KMeans:
       print "-" * 25
       for point in cluster:
         print point
+    else:
+      print "no clusters"
+
 
   def print_cluster_lens(self):
     for i,cluster in enumerate(self.clusters):
