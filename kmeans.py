@@ -54,7 +54,7 @@ class KMeans:
     """
 
     def isDone():
-      same = True
+      same = bool(len(self.prev_centers))
       for i, prev_center in enumerate(self.prev_centers):
         if prev_center.distance(self.centers[i], self.distance) != 0:
           same = False
@@ -67,12 +67,11 @@ class KMeans:
       self.recalculate_centers()
 
     if iterations == self.INFINITY: # infinite iterations
-      done = False
       while not isDone():
+        self.print_cluster_lens()
         iterate()
     else:
       for i in xrange(iterations): # finite iterations
-        print "ITERATION", i
         iterate()
 
 
@@ -81,6 +80,10 @@ class KMeans:
       print "-" * 25
       for point in cluster:
         print point
+
+  def print_cluster_lens(self):
+    for i,cluster in enumerate(self.clusters):
+      print i, len(cluster)
 
   def print_centers(self):
     for center in self.centers:
