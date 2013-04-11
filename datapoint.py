@@ -157,9 +157,7 @@ class DataPoint:
       else:
         sum += (long[key] ** 2)
     for key in short:
-      if key in long:
-        sum += 0
-      else:
+      if key not in long:
         sum += (short[key] ** 2)
 
 
