@@ -5,9 +5,10 @@ from DataReader import *
 
 
 # 1. Test GUI
-# data = gen_random_data(4, 100)
-# clusterer = KMeans(data, 3)
-# KMeansGUI(data, clusterer)
+data = gen_random_data(4, 100)
+clusterer = KMeans(data, 3)
+clusterer.cluster()
+KMeansGUI(data, clusterer)
 
 # 2. Test Words
 # data = []

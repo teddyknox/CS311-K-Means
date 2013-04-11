@@ -6,6 +6,8 @@ date: April, 2013
 """
 
 from random import randint
+from datapoint import DataPoint
+from copy import deepcopy
 
 class KMeans:
   """
@@ -14,11 +16,7 @@ class KMeans:
 
   INFINITY = 1.0e400
 
-  # constants for different distance measures
-  EUCLIDEAN = 1
-  COSINE = 2
-
-  def __init__(self, data, k, distance_metric=EUCLIDEAN):
+  def __init__(self, data, k, distance_metric=DataPoint.EUCLIDEAN):
     """
     Create a new k-means cluster to cluster *data* into *k*
     clusters.  By default the clustering will use euclidean
@@ -29,20 +27,23 @@ class KMeans:
     clustering does NOT begin until the cluster method is called.
     """
 
-    cls = self.clusters = []
-    cens = self.centers = []
+    self.distance = distance_metric
+
+    self.clusters = []
+    self.centers = []
+    self.prev_centers = []
 
     cluster_indexes = []
     num_points = len(data)
     possible_indexes = range(num_points)
 
     for i in range(k):
-      cls.append([])
+      self.clusters.append([])
       which_index = randint(0, num_points-i)
-      cens.append(data[possible_indexes[which_index]])
+      self.centers.append(data[possible_indexes[which_index]])
       possible_indexes.remove(which_index)
 
-    cls[0] = data
+    self.clusters[0] = data
 
   def cluster(self, iterations=INFINITY):
     """
@@ -52,9 +53,31 @@ class KMeans:
     i.e. don't change. Optionally, you can specify a fixed number of iterations.
     """
 
-    for i in xrange(iterations):
+    def isDone():
+        same = True
+        for i, prev_center in enumerate(self.prev_centers):
+          if prev_center.distance(self.centers[i], self.distance) != 0:
+            same = False
+            break
+        return same 
+
+    def iterate():
       self.assign_to_centers()
+      self.prev_centers = deepcopy(self.centers)
       self.recalculate_centers()
+
+    if iterations == self.INFINITY: # infinite iterations
+      done = False
+      while not done:
+        iterate()
+        done = isDone()
+                 
+    else:
+      for i in xrange(iterations): # finite iterations
+        iterate()
+
+
+
 
   def assign_to_centers(self):
     """
@@ -66,33 +89,27 @@ class KMeans:
     new_clusters = [[] for x in range(len(self.clusters))] # blank clusters
 
     for point in points:
-      min_dist = INFINITY
+      min_dist = self.INFINITY
       min_k = -1
       for x, center in enumerate(self.centers):
-        dist = center.euclidean(point)
+        dist = center.distance(point, self.distance)
         if dist < min_dist:
           min_dist = dist
           min_k = x
       new_clusters[min_k].append(point)
-    self.clusters = new_clusters 
+    self.clusters = new_clusters
 
   def recalculate_centers(self):
     """
     Recalculte the cluster centers based on the current clusters.
     """
-    new_centers = []
-    for cluster in clusters:
-      dim_totals = {}
-      for point in cluster:
-        for key in point:
-          if key in dim_totals:
-            dim_totals[key] += point[key]
-          else:
-            dim_totals[key] = point[key]
-        for key in dim_total:
-          dim_total[key] = float(dim_total[key])/len(cluster)
-      new_centers.append(DataPoint(dim_total))
 
+    for i, cluster in enumerate(self.clusters):
+      new_center = DataPoint()
+      for point in cluster:
+        new_center.add_data_counts(point)
+      new_center.divide_by_constant(len(cluster))
+      self.centers[i] = new_center
 
   def get_clusters(self):
     """

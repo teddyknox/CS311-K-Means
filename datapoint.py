@@ -11,11 +11,13 @@ import math
 import re
 import random
 
-
 class DataPoint:
   """
   Sparse representation of a data point.
   """
+  # Because these should be here
+  EUCLIDEAN = 1
+  COSINE = 2
 
   def __init__(self, sparse_vector = None):
     """
@@ -92,6 +94,14 @@ class DataPoint:
 
     self.set_length()
 
+  def distance(self, other_point, distance_metric):
+    if distance_metric == self.EUCLIDEAN:
+      fn = self.euclidean_distance
+    elif distance_metric == self.COSINE:
+      fn = self.euclidean_distance
+
+    return fn(other_point)
+
   def cosine_distance(self, other_point):
     """ return the cosine distance between this point and other_point """
 
@@ -113,7 +123,7 @@ class DataPoint:
     # return 1 - the cosine similarity to get a distance metric
     return 1 - float(sum)/(self.length * other_point.length)
 
-  def euclidean(self, other_point):
+  def euclidean_distance(self, other_point):
     """ return the euclidean distance between this point and other_point """
 
     #########
