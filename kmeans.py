@@ -15,6 +15,7 @@ class KMeans:
   """
 
   INFINITY = 1.0e400
+  EPSILON = 10
 
   def __init__(self, data, k, distance_metric=DataPoint.EUCLIDEAN):
     """
@@ -82,11 +83,11 @@ class KMeans:
 
     def isDone():
       same = bool(len(self.prev_centers))
+      center_delta = 0
       for i, prev_center in enumerate(self.prev_centers):
-        if prev_center.distance(self.centers[i], self.distance) != 0:
-          same = False
-          break
-      return same
+        center_delta += prev_center.distance(self.centers[i], self.distance)
+      print "CENTROID TOTAL CHANGE", center_delta
+      return center_delta < self.EPSILON:
 
     def iterate():
       self.assign_to_centers()
