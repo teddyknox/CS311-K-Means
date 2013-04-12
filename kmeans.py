@@ -99,7 +99,6 @@ class KMeans:
       else: return False
 
     def iterate():
-      print "hello"
       self.assign_to_centers()
       self.prev_centers = deepcopy(self.centers)
       self.recalculate_centers()
