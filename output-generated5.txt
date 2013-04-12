@@ -1,0 +1,84 @@
+Next Iteration
+0 13591
+1 0
+2 0
+3 0
+4 0
+hello
+CENTROID TOTAL CHANGE 325.745682861
+Next Iteration
+0 14
+1 13574
+2 1
+3 0
+4 2
+hello
+CENTROID TOTAL CHANGE 4.26722158831
+Next Iteration
+0 54
+1 8854
+2 1
+3 4680
+4 2
+hello
+CENTROID TOTAL CHANGE 2.10223578429
+Next Iteration
+0 116
+1 7840
+2 1
+3 5632
+4 2
+hello
+CENTROID TOTAL CHANGE 1.26196061659
+Next Iteration
+0 217
+1 7699
+2 1
+3 5672
+4 2
+hello
+CENTROID TOTAL CHANGE 0.768532995277
+Next Iteration
+0 335
+1 7609
+2 1
+3 5644
+4 2
+hello
+CENTROID TOTAL CHANGE 0.499121099234
+Next Iteration
+0 446
+1 7552
+2 1
+3 5590
+4 2
+hello
+CENTROID TOTAL CHANGE 0.33331371954
+Next Iteration
+0 535
+1 7509
+2 1
+3 5544
+4 2
+hello
+CENTROID TOTAL CHANGE 0.215287738833
+---KMEANS DONE---
+-------------------------
+NON-WEIGHTED PURITY
+-------------------------
+Cluster 0:0.864548494983
+Cluster 1:0.828887703388
+Cluster 2:1.0
+Cluster 3:0.768936635106
+Cluster 4:0.5
+Average Unweighted Purity: 0.792474566695
+
+-------------------------
+WEIGHTED PURITY
+-------------------------
+Cluster 0:517.0
+Cluster 1:6215.0
+Cluster 2:1.0
+Cluster 3:4223.0
+Cluster 4:1.0
+Average Weighted Purity: 0.806195276286
