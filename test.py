@@ -5,8 +5,8 @@ from DataReader import *
 
 
 # 1. Test GUI
-# data = gen_random_data(8, 100)
-# clusterer = KMeans(data, 7, DataPoint.COSINE)
+# data = gen_random_data(4, 100)
+# clusterer = KMeans(data, 4, DataPoint.COSINE)
 # # clusterer.cluster()
 # KMeansGUI(data, clusterer)
 
@@ -37,9 +37,3 @@ for label, tokens in reader:
 # k=five clusters
 clusterer = KMeans(data, 5, DataPoint.COSINE)
 clusterer.cluster()
-clusterer.print_cluster_lens()
-clusters = clusterer.get_clusters()
-for cluster in clusters:
-	print "-" * 25
-	for point in cluster:
-		print point.get_label() + ": " + str(point)

@@ -15,7 +15,7 @@ class KMeans:
   """
 
   INFINITY = 1.0e400
-  EPSILON = 10
+  EPSILON = 0.3
 
   def __init__(self, data, k, distance_metric=DataPoint.EUCLIDEAN):
     """
@@ -73,6 +73,14 @@ class KMeans:
 
     init_generate_points(k)
 
+  #   self.lower_bound = {}
+  #   for point in sum(self.clusters, []):
+  #     self.lower_bound[k][point] = 
+
+
+  # def get_
+
+
   def cluster(self, iterations=INFINITY):
     """
     Cluster the data and return the found clusters.
@@ -82,14 +90,16 @@ class KMeans:
     """
 
     def isDone():
-      same = bool(len(self.prev_centers))
-      center_delta = 0
-      for i, prev_center in enumerate(self.prev_centers):
-        center_delta += prev_center.distance(self.centers[i], self.distance)
-      print "CENTROID TOTAL CHANGE", center_delta
-      return center_delta < self.EPSILON
+      if self.prev_centers:
+        center_delta = 0
+        for i, prev_center in enumerate(self.prev_centers):
+          center_delta += prev_center.distance(self.centers[i], self.distance)
+        print "CENTROID TOTAL CHANGE", center_delta
+        return center_delta < self.EPSILON
+      else: return False
 
     def iterate():
+      print "hello"
       self.assign_to_centers()
       self.prev_centers = deepcopy(self.centers)
       self.recalculate_centers()
