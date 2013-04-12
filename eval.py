@@ -10,7 +10,7 @@ for label, tokens in reader:
 	data.append(WordDataPoint(tokens, label=label))
 # k=five clusters
 clusterer = KMeans(data, 5, DataPoint.EUCLIDEAN)
-clusterer.cluster(4)
+clusterer.cluster()
 print "---KMEANS DONE---"
 clusters = clusterer.get_clusters()	
 
